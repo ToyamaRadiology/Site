@@ -112,9 +112,6 @@ export default function ContactPage() {
                 <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">
                     Contact
                 </h1>
-                <p className="mt-3 opacity-90 text-sm md:text-base">
-                    講演・執筆・共同研究に関するご連絡のみ受け付けています。個別の医療相談には回答できません。
-                </p>
 
                 <form
                     onSubmit={onSubmit}
@@ -162,28 +159,6 @@ export default function ContactPage() {
                         />
                     </div>
 
-                    {/* Category */}
-                    <div>
-                        <label
-                            htmlFor="category"
-                            className="block text-sm font-medium"
-                        >
-                            お問い合わせ種別
-                        </label>
-                        <select
-                            id="category"
-                            name="category"
-                            defaultValue="講演依頼"
-                            disabled={sending}
-                            className="mt-1 w-full rounded border px-3 py-2"
-                        >
-                            <option>講演依頼</option>
-                            <option>執筆・取材</option>
-                            <option>共同研究</option>
-                            <option>その他（業務連絡）</option>
-                        </select>
-                    </div>
-
                     {/* Message */}
                     <div>
                         <label
@@ -200,7 +175,6 @@ export default function ContactPage() {
                             minLength={10}
                             disabled={sending}
                             className="mt-1 w-full rounded border px-3 py-2"
-                            placeholder="要件・背景・ご希望の時期など"
                         />
                     </div>
 
@@ -214,7 +188,7 @@ export default function ContactPage() {
                             disabled={sending}
                         />
                         <span>
-                            患者個人情報・診療相談は送信しません。送信内容は業務連絡のみに用います。
+                            患者個人情報・診療相談は送信しないでください。
                         </span>
                     </label>
 
@@ -243,17 +217,16 @@ export default function ContactPage() {
                 </form>
 
                 <p className="mt-6 text-xs opacity-70">
-                    ※ スパム対策として reCAPTCHA（v3）を利用しています。Google
-                    の{" "}
+                    本サイトはreCAPTCHA(v3)を利用しています。Googleの
                     <a
                         className="underline"
                         href="https://policies.google.com/privacy"
                         target="_blank"
                         rel="noreferrer"
                     >
-                        プライバシー ポリシー
-                    </a>{" "}
-                    と{" "}
+                        プライバシーポリシー
+                    </a>
+                    と
                     <a
                         className="underline"
                         href="https://policies.google.com/terms"
@@ -261,7 +234,7 @@ export default function ContactPage() {
                         rel="noreferrer"
                     >
                         利用規約
-                    </a>{" "}
+                    </a>
                     が適用されます。
                 </p>
             </div>

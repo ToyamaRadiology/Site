@@ -1,8 +1,16 @@
+"use client";
 import Image from "next/image";
+import { useState } from "react";
 
 export function Hero() {
+    const [ready, setReady] = useState(false);
+
     return (
-        <section className="relative min-h-[80vh] md:min-h-screen">
+        <section
+            className={`hero relative min-h-[80vh] md:min-h-screen ${
+                ready ? "is-loaded" : ""
+            }`}
+        >
             {/* 背景写真（全面） */}
             <Image
                 src="/images/hero-portrait.png"
@@ -10,7 +18,8 @@ export function Hero() {
                 fill
                 priority
                 sizes="100vw"
-                className="object-cover object-center"
+                className="hero__img object-cover object-center"
+                onLoad={() => setReady(true)}
             />
 
             {/* 上→下のグラデ・オーバーレイ（上やや濃い/下やや白み） */}
@@ -18,7 +27,7 @@ export function Hero() {
 
             {/* テキスト（中央寄せ：縦横センター） */}
             <div className="relative z-10 flex items-center justify-center min-h-[80vh] md:min-h-screen px-6 py-16 md:py-24 lg:py-32">
-                <div className="text-center max-w-3xl">
+                <div className="hero__img text-center max-w-3xl">
                     <h1 className="text-white text-3xl md:text-6xl font-semibold tracking-tight">
                         外山 由貴
                         <span className="ml-3 align-baseline text-white/80 text-lg md:text-2xl font-normal tracking-normal">
@@ -35,11 +44,15 @@ export function Hero() {
                         東北大学病院 放射線診断科 助教
                     </p>
 
-                    <div className="mt-8 flex items-center justify-center gap-3">
+                    <div className="mt-8 flex items-center justify-center gap-5">
                         <a
                             href="/publications"
                             className="btn"
-                            style={{ background: "white", color: "#0a0a0a" }}
+                            style={{
+                                background: "var(--brand)",
+                                color: "white",
+                                border: "1px solid var(--brand)",
+                            }}
                         >
                             Publications
                         </a>
@@ -49,7 +62,7 @@ export function Hero() {
                             style={{
                                 background: "transparent",
                                 color: "white",
-                                border: "1px solid rgba(255,255,255,.65)",
+                                border: "1px solid white",
                             }}
                         >
                             Profile

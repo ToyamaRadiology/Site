@@ -114,14 +114,47 @@ export default function RootLayout({
                     {children}
                 </main>
 
-                <footer className="mt-8 border-t">
-                    <div className="container mx-auto px-4 py-6 text-xs opacity-80">
-                        <p>
-                            本サイトは一般情報の提供を目的とし、個別の医療助言は行いません。緊急時は医療機関を受診してください。
-                        </p>
-                        <p className="mt-2">
-                            © {new Date().getFullYear()} IMAGE Lab
-                        </p>
+                <footer className="mt-10 border-t">
+                    <div className="px-4 md:px-6 lg:px-8 py-8">
+                        <div className="flex items-center justify-center w-full">
+                            <nav
+                                aria-label="Footer"
+                                className="flex w-full items-center justify-evenly gap-6 text-sm font-latin header-nav flex-nowrap text-center"
+                            >
+                                <a href="/sitemap.xml" className="nav-link">
+                                    Sitemap
+                                </a>
+                                <a href="/privacy" className="nav-link">
+                                    Privacy
+                                </a>
+                                <a
+                                    href="https://www.ameba.jp/profile/general/thk-rad118/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="nav-link group inline-flex items-center"
+                                >
+                                    Ameba Blog
+                                    <svg
+                                        className="ml-1 inline-block h-3.5 w-3.5 align-[-0.125em] opacity-80 transition-opacity group-hover:opacity-100"
+                                        viewBox="0 0 24 24"
+                                        aria-hidden="true"
+                                        focusable="false"
+                                    >
+                                        <path
+                                            fill="currentColor"
+                                            d="M14 3h7v7h-2V6.414l-9.293 9.293-1.414-1.414L17.586 5H14V3z"
+                                        />
+                                        <path
+                                            fill="currentColor"
+                                            d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2v7z"
+                                        />
+                                    </svg>
+                                </a>
+                            </nav>
+                        </div>
+                        <div className="text-center mt-4 text-xs opacity-70">
+                            &copy;{new Date().getFullYear()} IMAGE Lab
+                        </div>
                     </div>
                 </footer>
             </body>
