@@ -1,26 +1,45 @@
 @import "tailwindcss";
 
+/* ===== Theme tokens (light / dark) ===== */
 :root {
-  --bg: #ffffff; --fg: #0a0a0a; --accent: #2563eb; --radius: 10px;
+  /* light (default) */
+  --bg: #ffffff;
+  --fg: #0a0a0a;
+  --brand: #480081;
+  --radius: 10px;
   --font-head: ui-serif, "Noto Serif JP", serif;
   --font-body: ui-sans-serif, "Inter", "Noto Sans JP", system-ui, sans-serif;
 }
-[data-theme="classic"] { --accent:#1f2937; --font-head: "Noto Serif JP", serif; }
-[data-theme="modern"]  { --accent:#2563eb; --radius:12px; --font-body:"Inter",system-ui,sans-serif; }
-[data-theme="bold"]    { --bg:#0b0b0b; --fg:#f5f5f5; --accent:#22d3ee; }
 
+/* dark override */
+[data-theme="dark"] {
+  --bg: #0b0b0b;
+  --fg: #f5f5f5;
+  --radius: 12px; /* 任意の差分 */
+}
+
+/* system preference fallback (attribute未設定時のみ) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --bg: #0b0b0b;
+    --fg: #f5f5f5;
+    --radius: 12px;
+  }
+}
+
+/* ===== Base ===== */
 html { background: var(--bg); color: var(--fg); }
 h1,h2,h3 { font-family: var(--font-head); }
 body { font-family: var(--font-body); }
 
-/* Components (no @apply in v4) */
+/* ===== Components (no @apply in v4) ===== */
 .btn {
   display: inline-flex;              /* inline-flex */
   align-items: center;               /* items-center */
   gap: 0.5rem;                       /* gap-2 */
   padding: 0.5rem 1rem;              /* py-2 px-4 */
   border-radius: var(--radius);      /* rounded */
-  background: var(--accent);
+  background: var(--brand);
   color: #fff;
   font-weight: 500;                  /* font-medium */
   text-decoration: none;
@@ -28,9 +47,9 @@ body { font-family: var(--font-body); }
 }
 .btn:hover { opacity: 0.9; }
 .btn:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--brand);
   outline-offset: 2px;
-  box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent) 30%, transparent);
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--brand) 30%, transparent);
 }
 
 .card {
@@ -40,4 +59,127 @@ body { font-family: var(--font-body); }
   border-style: solid;
   border-color: color-mix(in oklab, var(--fg) 15%, transparent);
   background: color-mix(in oklab, var(--bg) 95%, transparent);
+}
+
+/* ===== Brand logo switching (light/dark) ===== */
+.logo-dark { display: none; }
+[data-theme="dark"] .logo-light { display: none; }
+[data-theme="dark"] .logo-dark { display: inline-block; }
+
+/* attribute未設定で system dark の場合 */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .logo-light { display: none; }
+  :root:not([data-theme]) .logo-dark { display: inline-block; }
+}
+
+
+/* === Brand badge for header === */
+.brand-badge {
+  border: 1px solid color-mix(in oklab, var(--fg) 20%, transparent);
+  padding: 2px 8px;            /* ~py-0.5 px-2 */
+  border-radius: 9999px;       /* pill */
+  font-size: 0.75rem;          /* text-xs */
+  letter-spacing: 0.06em;      /* tracking-wide-ish */
+  text-transform: uppercase;   /* uppercase */
+  line-height: 1.2;
+  color: var(--fg);
+}
+[data-theme="dark"] .brand-badge {
+  border-color: color-mix(in oklab, var(--fg) 28%, transparent);
+}
+
+
+.bg-grid {
+  background-image:
+    linear-gradient(to right, color-mix(in oklab, var(--fg) 12%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--fg) 12%, transparent) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+
+.font-jp { font-family: var(--font-notojp) }
+.font-latin { font-family: var(--font-inter) }
+
+
+.header-nav { font-size:.875rem; letter-spacing:.02em; }
+.header-nav .nav-link { position:relative; padding:2px 0; opacity:.85; transition: opacity .2s ease, transform .2s ease; }
+.header-nav .nav-link::after { content:""; position:absolute; left:0; right:0; bottom:-3px; height:1px; background: currentColor; transform: scaleX(0); transform-origin: 0 50%; transition: transform .22s ease; }
+.header-nav .nav-link:hover { opacity:1; }
+.header-nav .nav-link:hover::after,
+.header-nav .nav-link:focus-visible::after { transform: scaleX(1); }
+.header-nav .nav-link:focus-visible { outline:none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .header-nav .nav-link,
+  .header-nav .nav-link::after { transition: none; }
+}
+
+
+.no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+html { scrollbar-gutter: stable both-edges; }
+
+
+/* === Hamburger (3 bars → X) === */
+.hamburger { position: relative; display:inline-block; width:20px; height:20px; transition: transform .35s cubic-bezier(.22,.61,.36,1); will-change: transform; }
+.hamburger .line {
+  position:absolute; left:0; right:0; top:50%; height:2px; background: currentColor; border-radius:999px;
+  transform-origin: 50% 50%; transition: transform .28s cubic-bezier(.22,.61,.36,1), opacity .2s ease;
+}
+.hamburger .line:nth-child(1) { transform: translateY(-6px); }
+.hamburger .line:nth-child(2) { transform: translateY(0); }
+.hamburger .line:nth-child(3) { transform: translateY(6px); }
+
+/* open state */
+button[data-open="true"] .hamburger { transform: rotate(270deg) scale(1.02); }
+button[data-open="true"] .hamburger .line:nth-child(1) { transform: rotate(405deg); }
+button[data-open="true"] .hamburger .line:nth-child(2) { opacity: 0; transform: scaleX(0.3); }
+button[data-open="true"] .hamburger .line:nth-child(3) { transform: rotate(-405deg); }
+
+/* larger tap target without visual box */
+button[data-open] { border: none; background: transparent; }
+button[data-open]:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; border-radius: var(--radius); }
+
+
+/* === Glass drawer for mobile menu === */
+.glass-drawer {
+  background: color-mix(in oklab, var(--bg) 85%, transparent);
+  backdrop-filter: blur(0px) saturate(130%);
+  -webkit-backdrop-filter: blur(14px) saturate(130%);
+}
+[data-theme="dark"] .glass-drawer {
+  background: color-mix(in oklab, var(--bg) 38%, transparent);
+  border-left-color: color-mix(in oklab, var(--fg) 18%, transparent);
+}
+
+
+/* === Menu items: fade-up stagger === */
+.menu-list a[data-animate]{
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .35s ease, transform .35s ease;
+  will-change: opacity, transform;
+}
+
+/* open中にだけ見える＋上がる */
+.glass-drawer[data-open="true"] .menu-list a[data-animate]{
+  opacity: 1;
+  transform: none;
+}
+
+/* 段階的ディレイ（1→2→3→4） */
+.glass-drawer[data-open="true"] .menu-list li:nth-child(1) a[data-animate]{ transition-delay: .05s; }
+.glass-drawer[data-open="true"] .menu-list li:nth-child(2) a[data-animate]{ transition-delay: .10s; }
+.glass-drawer[data-open="true"] .menu-list li:nth-child(3) a[data-animate]{ transition-delay: .15s; }
+.glass-drawer[data-open="true"] .menu-list li:nth-child(4) a[data-animate]{ transition-delay: .20s; }
+/* リンクが増えるなら5,6...を同様に追加 */
+
+ /* 閉じるときは即時（ディレイ解除） */
+.glass-drawer:not([data-open="true"]) .menu-list a[data-animate]{ transition-delay: 0s; }
+
+/* アニメ無効ユーザー配慮 */
+@media (prefers-reduced-motion: reduce){
+  .glass-drawer{ transition: none; }
+  .menu-list a[data-animate]{ transition: none; opacity: 1; transform: none; }
 }
